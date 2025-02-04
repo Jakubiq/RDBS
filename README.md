@@ -1,0 +1,2 @@
+# RDBS
+Zkouška z RDBS
