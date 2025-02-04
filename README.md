@@ -21,7 +21,7 @@ status: No
 <aside>
 💡
 
-# Select s analytickou funkcí a agregační klauzulí GROUP BY
+## Select s analytickou funkcí a agregační klauzulí GROUP BY
 
 ```sql
 SELECT p.nazev AS produkt, ROUND(AVG(h.hodnoceni)) AS prum_hodnoceni
@@ -37,7 +37,7 @@ LIMIT 5;
 <aside>
 💡
 
-# Select v selectu
+## Select v selectu
 
 ```sql
 SELECT
@@ -58,7 +58,7 @@ WHERE hodnoceni = 5
 <aside>
 💡
 
-# **SELECT vypočítávající průměrný počet záznamů na jednu tabulku v DB**
+## **SELECT vypočítávající průměrný počet záznamů na jednu tabulku v DB**
 
 ```sql
 SELECT SUM(n_live_tup)/COUNT(*) AS "Průměr" FROM pg_stat_user_tables;
@@ -69,7 +69,7 @@ SELECT SUM(n_live_tup)/COUNT(*) AS "Průměr" FROM pg_stat_user_tables;
 <aside>
 💡
 
-# SELECT řešící rekurzi nebo hierarchii
+## SELECT řešící rekurzi nebo hierarchii
 
 ```sql
 WITH RECURSIVE Hierarchie AS (
@@ -112,7 +112,7 @@ ORDER BY uroven, id_zamestnance;
 <aside>
 💡
 
-# Jeden view
+## Jeden view
 
 ```sql
 CREATE VIEW InformaceOProdejnach AS
@@ -144,7 +144,7 @@ GROUP BY
 <aside>
 💡
 
-# Unikátní index
+## Unikátní index
 
 ```sql
 CREATE UNIQUE INDEX idx_unique_bankovni_ucet
@@ -156,9 +156,9 @@ ON Zamestnanci (bankovni_ucet);
 <aside>
 💡
 
-# Fulltextový index
+## Fulltextový index
 
-## Vytvoření
+### Vytvoření
 
 ```sql
 CREATE INDEX idx_fulltext_nazev
@@ -183,7 +183,7 @@ WHERE to_tsvector('simple', nazev) @@ plainto_tsquery('Tiskrana');
 <aside>
 💡
 
-# Vytvoření funkce
+## Vytvoření funkce
 
 ```sql
 CREATE OR REPLACE FUNCTION prum_cena_produktu()
@@ -212,7 +212,7 @@ SELECT prum_cena_produktu();
 <aside>
 💡
 
-# Vytvoření
+## Vytvoření
 
 - nejříve jsem si pro to vytvořil tabulku
 
@@ -363,36 +363,6 @@ CALL generuj_slevy();
 
 </aside>
 
-<aside>
-💡
-
-# Pokus o jiný transaction ale nefuguje
-
-```sql
-BEGIN;
-
-INSERT INTO public.objednavky (cena_objednavky, id_zakaznika, zaplaceno, id_dopravce, vyzvednuto, datum_cas)
-VALUES (2500.00, 8, FALSE, 2, FALSE, NOW())
-RETURNING id_objednavky INTO NEW_ORDER_ID;
-
-UPDATE public.produkty
-SET pocet_kusu = pocet_kusu - 1
-WHERE id_produktu = 16 AND pocet_kusu > 0;
-
-IF NOT FOUND THEN
-    ROLLBACK; 
-    RAISE EXCEPTION 'Není dostateční počet produktů s ID %', 16;
-END IF;
-
-INSERT INTO public.log_updates (tabulka, id_zaznamu, datum_cas, uzivatel)
-VALUES ('objednavky', NEW_ORDER_ID, NOW(), SESSION_USER);
-
-COMMIT;
-
-```
-
-</aside>
-
 ---
 
 # Trigger
@@ -400,7 +370,7 @@ COMMIT;
 <aside>
 💡
 
-# Nejdříve si pro Trigger vytvoříme tabulku
+## Nejdříve si pro Trigger vytvoříme tabulku
 
 ```sql
 CREATE TABLE log_updates (
@@ -417,7 +387,7 @@ CREATE TABLE log_updates (
 <aside>
 💡
 
-# Jakou další si vytvoříme funkci která bude handlovat log systém do tabulky
+## Jakou další si vytvoříme funkci která bude handlovat log systém do tabulky
 
 ```sql
 CREATE OR REPLACE FUNCTION log_update_function()
@@ -435,7 +405,7 @@ $$ LANGUAGE plpgsql;
 <aside>
 💡
 
-# Vytvořím si danný trigger na například tabulku zamestnanci a kdykoliv v této tabulce proběhne nějaký update příkaz tak se to logne do mé log tabulky.
+## Vytvořím si danný trigger na například tabulku zamestnanci a kdykoliv v této tabulce proběhne nějaký update příkaz tak se to logne do mé log tabulky.
 
 ```sql
 CREATE TRIGGER after_update_zamestnanci
@@ -449,7 +419,7 @@ EXECUTE FUNCTION log_update_function();
 <aside>
 💡
 
-# Ukázka
+## Ukázka
 
 ```sql
 UPDATE zamestnanci
@@ -576,19 +546,12 @@ DROP DATABASE;
 <aside>
 💡
 
-# Zamknutý jen jedné tabulky
+## Zamknutý jen jedné tabulky
 
 ```sql
--- zamknutý jen pro čtení
-BEGIN;
-LOCK TABLE Produkty IN SHARE MODE;
-SELECT * FROM Produkty;
-COMMIT;
-
 -- zamknutí pro zápis
 BEGIN;
-LOCK TABLE Objednavky IN EXCLUSIVE MODE;
-UPDATE Objednavky SET zaplaceno = TRUE WHERE ID_objednavky = 1;
+LOCK TABLE produkty IN EXCLUSIVE MODE;
 COMMIT;
 
 ```
