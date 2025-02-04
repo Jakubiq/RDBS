@@ -16,61 +16,6 @@ status: No
 
 [ERD-elektor.pdf](ERD-elektor.pdf)
 
-## SELECT příkazy pro mou databázi elektro
-
-```
---Průměrné hodnocení pro každý produkt:
-SELECT p.nazev, ROUND(AVG(h.hodnoceni)) AS prumerne_hodnoceni
-FROM Produkty p
-JOIN Hodnoceni h ON p.ID_produktu = h.id_produktu
-GROUP BY p.nazev;
-
--- Seznam zaměstnanců, kteří pracují v konkrétní prodejně:
-SELECT z.jmeno, z.prijmeni, zp.nazev AS pozice, p.adresa AS prodejna_adresa
-FROM Zamestnanci z
-JOIN Zamestnanci_pozice zp ON z.id_pozice = zp.ID_pozice
-JOIN Prodejny p ON z.id_prodejny = p.ID_prodejny
-WHERE p.ID_prodejny = 1;
--- u tohoto selectu si můžeme jednoduše měnit jakou prodejnu chceme zobrazit pomocí id prodejny
-
--- select top 5 nejlépe hodnocených produktů
-SELECT p.nazev AS produkt, ROUND(AVG(h.hodnoceni)) AS prum_hodnoceni
-FROM Produkty p
-JOIN Hodnoceni h ON p.ID_produktu = h.id_produktu
-GROUP BY p.nazev
-ORDER BY prum_hodnoceni DESC
-LIMIT 5;
-
--- select 10 produktů seřazeno od nejdraššího
-SELECT p.nazev AS produkt, p.cena
-FROM Produkty p
-JOIN Hodnoceni h ON p.ID_produktu = h.id_produktu
-ORDER BY cena DESC
-LIMIT 10;
-
--- select zamestnancu a na kterych prodejnach pracují
-SELECT z.jmeno, z.prijmeni, p.adresa AS adresa_prodejny
-FROM Zamestnanci z
-JOIN Prodejny p ON z.id_prodejny = p.ID_prodejny
-ORDER BY p.adresa;
-
--- select reklamaci serazenych podle casu vytvoreni
-SELECT r.datum_cas, r.duvod
-FROM Reklamace r
-ORDER BY datum_cas;
-
---vypis vsech nevyzvednutích zásilek
-SELECT o.id_objednavky AS objednavky, o.vyzvednuto, d.nazev as dopravce, o.datum_cas
-FROM objednavky o
-LEFT JOIN Dopravci d ON o.id_dopravce = d.id_dopravce
-WHERE o.vyzvednuto = FALSE;
-
--- zde je jedno view
-SELECT * FROM prehled_zam;
-```
-
----
-
 # Selecty
 
 <aside>
