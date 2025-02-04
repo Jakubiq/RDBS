@@ -8,6 +8,7 @@ status: No
 ## Připojení k databázi
 
 - sudo -u postgres psql
+- psql -U 'uzivatel' -d nazev_databaze -h localhost
 - \c elektro
 
 ## ERD
