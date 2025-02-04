@@ -1,8 +1,4 @@
 # Příkazy k zápočtu
-
-date: January 6, 2025
-status: No
-
 # Dokumentace pro databázi
 
 ## Připojení k databázi
