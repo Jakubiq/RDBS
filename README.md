@@ -574,7 +574,7 @@ COMMIT;
 from sqlalchemy import create_engine, select, Column, Integer, String, Text, ForeignKey, Numeric
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-db = create_engine('postgresql://postgres:jakubec123@localhost:5432/elektro')
+db = create_engine('postgresql://postgres:**********@localhost:5432/elektro')
 
 Base = declarative_base()
 
