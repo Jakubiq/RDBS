@@ -113,13 +113,11 @@ ORDER BY uroven, id_zamestnance;
 
 ```sql
 CREATE VIEW InformaceOProdejnach AS
-SELECT 
-    z.jmeno AS zamestnanec_jmeno,
-    z.prijmeni AS zamestnanec_prijmeni,
+SELECT
+    CONCAT (z.jmeno, ' ', z.prijmeni) AS jmeno_zamestnance,
     z.id_pozice AS zamestnanec_pozice,
     p.adresa AS prodejna_adresa,
-    p.jmeno_kontaktni_osoby AS kontaktni_osoba_jmeno,
-    p.prijmeni_kontaktni_osoby AS kontaktni_osoba_prijmeni,
+    CONCAT (p.jmeno_kontaktni_osoby, ' ', p.prijmeni_kontaktni_osoby) AS kontaktni_osoba,
     ROUND(AVG(h.hodnoceni), 2) AS prumerne_hodnoceni
 FROM Zamestnanci z
 -- INNER JOIN: Zaměstnanci a jejich prodejny
