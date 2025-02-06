@@ -126,7 +126,7 @@ FROM Zamestnanci z
 INNER JOIN Prodejny p ON z.id_prodejny = p.id_prodejny
 -- LEFT JOIN: Prodejny s případnými hodnoceními
 LEFT JOIN Hodnoceni h ON h.id_produktu = p.id_prodejny -- Pokud produkty odkazují na prodejnu
-WHERE z.id_pozice != 3 -- Vynechání ředitelů
+WHERE z.id_pozice != 5 -- Vynechání managerů
 GROUP BY 
     z.jmeno, z.prijmeni, z.id_pozice, 
     p.adresa, p.jmeno_kontaktni_osoby, p.prijmeni_kontaktni_osoby;;
