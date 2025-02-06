@@ -165,7 +165,7 @@ ON Produkty USING gin (to_tsvector('simple', nazev));
 ```sql
 SELECT *
 FROM Produkty
-WHERE to_tsvector('simple', nazev) @@ plainto_tsquery('Tiskrana');
+WHERE to_tsvector('simple', nazev) @@ plainto_tsquery('Tablet');
 ```
 
 - použil jsem simple místo czech protože mi nefungovala instalace českého balíčku
